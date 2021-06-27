@@ -1,5 +1,6 @@
 docker run \
-    --name  cranky_fermi\
+    --name cranky_fermi \
+    --restart unless-stopped \
     -p7474:7474 -p7687:7687 \
     -d \
     -v $HOME/neo4j/data:/data \
