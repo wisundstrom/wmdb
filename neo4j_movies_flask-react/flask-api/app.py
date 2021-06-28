@@ -54,7 +54,7 @@ DATABASE_USERNAME = env('MOVIE_DATABASE_USERNAME')
 DATABASE_PASSWORD = env('MOVIE_DATABASE_PASSWORD')
 DATABASE_URL = env('MOVIE_DATABASE_URL')
 
-driver = GraphDatabase.driver(DATABASE_URL, auth=basic_auth(DATABASE_USERNAME, str(DATABASE_PASSWORD)))
+driver = GraphDatabase.driver(DATABASE_URL, auth=basic_auth(DATABASE_USERNAME, str(DATABASE_PASSWORD)), encrypted=False )
 
 app.config['SECRET_KEY'] = env('SECRET_KEY')
 
