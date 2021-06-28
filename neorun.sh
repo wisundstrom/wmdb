@@ -1,6 +1,8 @@
+docker network create wmdb;
 docker run \
     --name cranky_fermi \
     --restart unless-stopped \
+    --network wmdb --network-alias neo_server \
     -p7474:7474 -p7687:7687 \
     -d \
     -v /home/pi/neo4j/data:/data \

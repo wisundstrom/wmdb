@@ -1,0 +1,12 @@
+FROM arm64v8/python:latest
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . /usr/src/app 
+
+ENTRYPOINT [ "python3" ]
+
+CMD [ "app.py"]
