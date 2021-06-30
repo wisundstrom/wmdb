@@ -1109,10 +1109,10 @@ class PullClzData(Resource):
         
         output=True
 
-    if output:
-        return {'message':'Data Pull Successful!'}, 200
-    else:
-        return {'message':'Data Pull Failed'}, 400
+        if output:
+            return {'message':'Data Pull Successful!'}, 200
+        else:
+            return {'message':'Data Pull Failed'}, 400
 
 
 
@@ -1134,4 +1134,4 @@ api.add_resource(PersonBacon, '/api/v0/people/bacon')
 api.add_resource(Register, '/api/v0/register')
 api.add_resource(Login, '/api/v0/login')
 api.add_resource(UserMe, '/api/v0/users/me')
-api.add_resource(PullClzData, '/api/pulldata')
+api.add_resource(PullClzData, '/pulldata')
