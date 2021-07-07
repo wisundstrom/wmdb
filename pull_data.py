@@ -1,9 +1,3 @@
-from neo4j import GraphDatabase
-import pandas as pd
-import numpy as np
-import string
-
-import requests
 from requests.auth import HTTPBasicAuth
 import time
 from selenium import webdriver
@@ -40,7 +34,7 @@ driver = webdriver.Firefox(options = options, firefox_profile=profile)
 driver.implicitly_wait(10)
 
 # browser.download.useDownloadDir 
-driver.get()
+driver.get('https://cloud.collectorz.com/wisundstrom/movies?t=8bccef186b8a05138308f5de07f9879c09f5617ecc163866ba5b8ccb8509de7e')
 assert("Wisundstrom's movies") in driver.title
 
 driver.find_element_by_id("cookiescript_accept").click()
