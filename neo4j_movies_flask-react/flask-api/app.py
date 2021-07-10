@@ -26,7 +26,7 @@ app = Flask(__name__)
 CORS(app)
 FlaskJSON(app)
 
-api = Api(app, title='Neo4j Movie Demo API', api_version='0.0.10')
+api = Api(app, title='Neo4j Movie Demo API wmdb STYLE', api_version='0.1')
 
 
 @api.representation('application/json')
