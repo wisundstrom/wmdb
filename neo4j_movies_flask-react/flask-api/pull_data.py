@@ -29,10 +29,10 @@ def click_waiter(xpath):
 profile = webdriver.FirefoxProfile()
 profile.set_preference("browser.download.folderList", 2)
 profile.set_preference("browser.download.manager.showWhenStarting", False)
-profile.set_preference("browser.download.dir", '/home/will/wmdb/wmdb-repo')
+profile.set_preference("browser.download.dir", '/app/clz_data')
 profile.set_preference("browser.download.useDownloadDir", True)
 profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv")
-
+profile.set_preference("webdriver.gecko.driver", "/app/geckodriver")
 
 options = Options()
 options.headless = True
@@ -40,7 +40,7 @@ driver = webdriver.Firefox(options = options, firefox_profile=profile)
 driver.implicitly_wait(10)
 
 # browser.download.useDownloadDir 
-driver.get()
+driver.get("https://cloud.collectorz.com/wisundstrom/movies?t=8bccef186b8a05138308f5de07f9879c09f5617ecc163866ba5b8ccb8509de7e")
 assert("Wisundstrom's movies") in driver.title
 
 driver.find_element_by_id("cookiescript_accept").click()
