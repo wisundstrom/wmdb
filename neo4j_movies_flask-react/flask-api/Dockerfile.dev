@@ -1,16 +1,16 @@
 FROM arm64v8/ubuntu:latest
 
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && \
-    apt-get install -y python3-pip python-dev && \
-    apt-get install -y iputils-ping && \
-    apt-get install -y dnsutils && \
-    apt-get install -y curl && \
-    apt install -y gcc-arm-linux-gnueabihf libc6-armhf-cross libc6-dev-armhf-cross
+    apt-get install -y python3-pip python-dev iputils-ping vim curl
+
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update -y && apt-get install -y firefox dnsutils
 
 COPY ./geckodriver /usr/local/bin/
-#COPY ./ld-linux-armhf.so.3 /usr/lib/ld-linux-armhf.so.3
+
 
 
 RUN pip install --no-cache-dir neo4j py2neo requests pandas selenium
@@ -21,8 +21,5 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-
-#COPY . /app
-#COPY ./flask_run.sh .
 
 CMD [ "bash" ]
