@@ -1,6 +1,8 @@
 # wmdb
 Wills Movie Database is a graph database powered analytics and visualization project for your movie collection.
 
+## THIS NEEDS TO BE UPDATED
+
 ### The github actions aws ecs thing might be useful
 
 I'm using this wonderful template and guide from the folks at neo4j for the web app part of the site: https://neo4j.com/developer/python-movie-app/
