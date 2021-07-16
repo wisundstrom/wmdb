@@ -1,7 +1,7 @@
 # wmdb
 Wills Movie Database is a graph database powered analytics and visualization project for your movie collection.
 
-### UPDATE: This project took a sharp left turn, moving to a RaspberryPi 4 instead of aws
+##### UPDATE: This project took a sharp left turn, moving to a RaspberryPi 4 instead of aws
 
 This eliminated the various problems that arise from aws and replaced them with the problems of getting all this code to run on ARM64
 
