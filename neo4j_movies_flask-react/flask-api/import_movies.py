@@ -11,9 +11,6 @@ from neo4j import GraphDatabase
 uri = "bolt://cranky_fermi:7687"
 
 driver = GraphDatabase.driver(uri, auth=('neo4j', 'oscarfelix'), encrypted=False)
-with driver.session() as session:
-    result = session.run("MATCH (a) RETURN a limit 1")
-print(result.data())
 
 df = pd.read_csv("clz_data/export_movies.csv")
 df.sample(1).head()
@@ -22,10 +19,8 @@ df = df.fillna('null')
 
 #this is to wipe all data before adding movies
 with driver.session() as session:
-    result = session.run("Match ()-[e]-() delete e")
-    result = session.run("Match (n)delete n")
-    result = session.run("MATCH (a) RETURN a limit 5")
-print(result.data())
+    result = session.run("MATCH (a) RETURN count(a)")
+print("node_count before", result.data())
 
 row_dicts = df.to_dict(orient='records')
 
@@ -45,10 +40,15 @@ for idx, row in enumerate(row_dicts):
         sess.run(create_movie(row))
     for role in role_zip:
         if role[0] == 'Genre':
+            
             merge_nodes(driver, row, role[0], role[1], node_type='genre')
-        merge_nodes(driver, row, role[0], role[1])
+        else:
+            
+            merge_nodes(driver, row, role[0], role[1])
+
 
 with driver.session() as session:
     result = session.run("MATCH (a) RETURN count(a)")
+    print("node_count after",result.data())
 
-print(result.data())
+

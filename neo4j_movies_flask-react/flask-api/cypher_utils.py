@@ -24,7 +24,7 @@ def node_feat(row):
 def create_movie( movie):
     return "CREATE (%s:Movie {%s, %s})" % (
         movie['Title'].lower().translate(str.maketrans('', '', string.punctuation)).replace(" ","_"),
-        f"""Name:"{movie['Title']}", id:apoc.create.uuid() """, 
+        f"""name:"{movie['Title']}", id:apoc.create.uuid() """, 
         node_feat(movie))
 
 
@@ -44,7 +44,7 @@ def merge_nonmovie_query(col, edge, num_nodes, node_type='person'):
     peeps = [f"{node_type}_{x}" for x in range(num_nodes)]
     
     for peep in peeps:
-        pmatch.append("MERGE (%s:%s {Name:%s})" % (peep, node_type.title() , "$"+peep))
+        pmatch.append("MERGE (%s:%s {name:%s})" % (peep, node_type.title() , "$"+peep))
         pmatch.append("ON CREATE SET %s.id = apoc.create.uuid()" % (peep))
         
         if node_type == 'person':
@@ -86,32 +86,4 @@ def merge_nodes(driver, row, col, edge, node_type='person'):
             query_template: {query_template}
             """
 
-
-
-
-
-
-
-
-
-
-
-
-# def merge_genre(driver, row):  
-    
-#     mmatch = 'MATCH (m:Movie {Title:"%s"})' % row['Title']
-#     pmatch = [mmatch]
-#     attach = []
-
-#     genre = row['Genre']
-    
-#     pmatch.append("MERGE (%s:Genre {Name:%s})" % (genre, genre))
-#     pmatch.append("ON CREATE SET %s.id = apoc.create.uuid()" % (genre))
-#     attach.append("MERGE (m)-[:IN_GENRE]->(%s)" % (genre))
-    
-    
-#     mergeo = " \n".join(pmatch + attach)
-
-#     with driver.session() as session:
-#         result = session.run(mergeo)
 

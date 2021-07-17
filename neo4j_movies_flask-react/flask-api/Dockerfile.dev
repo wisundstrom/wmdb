@@ -13,7 +13,9 @@ COPY ./geckodriver /usr/local/bin/
 
 
 
-RUN pip install --no-cache-dir neo4j py2neo requests pandas selenium
+RUN pip install --no-cache-dir requests pandas selenium
+RUN pip3 --no-cache-dir uninstall neotime neo4j neobolt 
+RUN pip3 --no-cache-diri nstall neo4j
 
 COPY ./requirements.txt /app/requirements.txt
 
