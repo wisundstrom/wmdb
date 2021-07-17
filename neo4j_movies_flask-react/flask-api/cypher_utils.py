@@ -24,45 +24,94 @@ def node_feat(row):
 def create_movie( movie):
     return "CREATE (%s:Movie {%s, %s})" % (
         movie['Title'].lower().translate(str.maketrans('', '', string.punctuation)).replace(" ","_"),
-        f"""name:"{movie['Title']}" """, 
+        f"""Name:"{movie['Title']}", id:apoc.create.uuid() """, 
         node_feat(movie))
 
 
-def people_list(row, col):
+def node_list(row, col):
     plist = row[col].split(", ")
     return plist
 
-def merge_people_query(col, edge, num_peeps):  
+def merge_nonmovie_query(col, edge, num_nodes, node_type='person'):  
     
     mmatch = "MATCH (m:Movie {Title:$movie})"
     pmatch = [mmatch]
     attach = []
-    peeps = [f"person_{x}" for x in range(num_peeps)]
+    gmatch = []
+    attach2 = []
+
+    #this should be nodes everywhere instead of peeps, but i just dont want to do that.
+    peeps = [f"{node_type}_{x}" for x in range(num_nodes)]
     
     for peep in peeps:
-        pmatch.append("MERGE (%s:Person {name:%s})" % (peep, "$"+peep))
-        attach.append("MERGE (m)<-[:%s]-(%s)" % (edge, peep))
-        attach.append("SET %s : %s" % (peep, col))
-    
-    merges = " \n".join(pmatch + attach)
+        pmatch.append("MERGE (%s:%s {Name:%s})" % (peep, node_type.title() , "$"+peep))
+        pmatch.append("ON CREATE SET %s.id = apoc.create.uuid()" % (peep))
+        
+        if node_type == 'person':
+            attach.append("MERGE (m)<-[:%s]-(%s)" % (edge, peep))
+            attach.append("SET %s : %s" % (peep, col))
+        else:
+            attach.append("MERGE (m)-[:%s]->(%s)" % (edge, peep))
+
+    merges = " \n".join(pmatch + attach )
     return merges
 
 
-def people_args(row, col):
-    pl = people_list(row, col)
-    peeps = [f"person_{x}" for x in range(len(pl))]
+def node_args(row, col, node):
+    pl = node_list(row, col)
+    peeps = [f"{node}_{x}" for x in range(len(pl))]
     peep_dict = dict(zip(peeps, pl))
     return peep_dict
 
 
-def merge_people(driver, row, col, edge):
+def merge_nodes(driver, row, col, edge, node_type='person'):
     
-    num_people = len(people_list(row,col))
-    query_template = merge_people_query(col, edge, num_people)
-    peep_dict = people_args(row, col)
+    num_nodes = len(node_list(row,col))
     
-    with driver.session() as session:
-        result = session.run(query_template,
-                             movie=row['Title'],
-                             **peep_dict
-                            )
+    query_template = merge_nonmovie_query(col, edge, num_nodes, node_type)
+
+    node_dict = node_args(row, col, node_type)
+    
+    try:
+        with driver.session() as session:
+            result = session.run(query_template,
+                                movie=row['Title'],
+                                **node_dict
+                                )
+    except Exception as e:
+        print(e)
+        assert False, f"""
+            row: {row}, col: {col}, edge: {edge}, node:{node_type}, num_nodes:{num_nodes} \n
+            node_dict: {node_dict} \n
+            query_template: {query_template}
+            """
+
+
+
+
+
+
+
+
+
+
+
+
+# def merge_genre(driver, row):  
+    
+#     mmatch = 'MATCH (m:Movie {Title:"%s"})' % row['Title']
+#     pmatch = [mmatch]
+#     attach = []
+
+#     genre = row['Genre']
+    
+#     pmatch.append("MERGE (%s:Genre {Name:%s})" % (genre, genre))
+#     pmatch.append("ON CREATE SET %s.id = apoc.create.uuid()" % (genre))
+#     attach.append("MERGE (m)-[:IN_GENRE]->(%s)" % (genre))
+    
+    
+#     mergeo = " \n".join(pmatch + attach)
+
+#     with driver.session() as session:
+#         result = session.run(mergeo)
+
