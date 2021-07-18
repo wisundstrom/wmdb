@@ -1,14 +1,21 @@
 FROM arm64v8/ubuntu:latest
 
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && \
-    apt-get install -y python3-pip python-dev && \
-    apt-get install -y iputils-ping && \
-    apt-get install -y dnsutils && \
-    apt-get install -y curl
+    apt-get install -y python3-pip python-dev iputils-ping vim curl
 
-RUN pip install --no-cache-dir neo4j py2neo requests pandas
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update -y && apt-get install -y firefox dnsutils
+
+COPY ./geckodriver /usr/local/bin/
+
+
+
+RUN pip install --no-cache-dir requests pandas selenium
+RUN pip3 --no-cache-dir uninstall neotime neo4j neobolt 
+RUN pip3 --no-cache-diri nstall neo4j
 
 COPY ./requirements.txt /app/requirements.txt
 
@@ -16,6 +23,11 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-COPY . /app
+#CMD [ "bash" ]
 
-CMD [ "bash" ]
+COPY . /usr/src/app 
+
+ENTRYPOINT [ "python3" ]
+
+CMD [ "app.py"]
+

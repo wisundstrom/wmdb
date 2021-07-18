@@ -5,7 +5,7 @@
     },
     "proxies": {
         "/api/v0": {
-            "origin": "youthful_bartik.wmdb:5000"
+            "origin": "stupefied_engelbart.wmdb:5000"
         }
     }
 }

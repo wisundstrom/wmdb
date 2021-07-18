@@ -708,13 +708,15 @@ class Person(Resource):
                 OPTIONAL MATCH (person)-[:DIRECTED]->(d:Movie)
                 OPTIONAL MATCH (person)<-[:PRODUCED]->(p:Movie)
                 OPTIONAL MATCH (person)<-[:WROTE]->(w:Movie)
+                OPTIONAL MATCH (person)<-[:PHOTOGRAPHY_FOR]->(f:Movie)
                 OPTIONAL MATCH (person)<-[r:ACTED_IN]->(a:Movie)
                 OPTIONAL MATCH (person)-->(movies)<-[relatedRole:ACTED_IN]-(relatedPerson)
                 RETURN DISTINCT person,
-                collect(DISTINCT { name:d.title, id:d.id, poster_image:d.poster}) AS directed,
-                collect(DISTINCT { name:p.title, id:p.id, poster_image:p.poster}) AS produced,
-                collect(DISTINCT { name:w.title, id:w.id, poster_image:w.poster}) AS wrote,
-                collect(DISTINCT{ name:a.title, id:a.id, poster_image:a.poster}) AS actedIn,
+                collect(DISTINCT { name:d.Title, id:d.id, poster_image:d.poster}) AS directed,
+                collect(DISTINCT { name:p.Title, id:p.id, poster_image:p.poster}) AS produced,
+                collect(DISTINCT { name:w.Title, id:w.id, poster_image:w.poster}) AS wrote,
+                collect(DISTINCT{ name:a.Title, id:a.id, poster_image:a.poster}) AS actedIn,
+                collect(DISTINCT{ name:f.Title, id:f.id, poster_image:f.poster}) AS photographed,
                 collect(DISTINCT{ name:relatedPerson.name, id:relatedPerson.id, poster_image:relatedPerson.poster}) AS related
                 ''', {'id': user_id}
             ))
@@ -753,6 +755,15 @@ class Person(Resource):
                         'poster_image': movie['poster_image'],                    
                     } for movie in record['actedIn']
                 ],
+                'photographed': [
+                    {
+                        'id':movie['id'],
+                        'name':movie['name'],
+                        'poster_image':movie['poster_image'],
+                        
+                    } for movie in record['photographed']
+
+                ],    
                 'related': [
                     {
                         'id': person['id'],

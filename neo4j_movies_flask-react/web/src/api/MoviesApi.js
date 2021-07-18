@@ -35,9 +35,9 @@ export default class MoviesApi {
   // convert this to top 3 most rated movies
   static getFeaturedMovies() {
     return Promise.all([
-      axios.get(`${apiBaseURL}/movies/13380`),
-      axios.get(`${apiBaseURL}/movies/15292`),
-      axios.get(`${apiBaseURL}/movies/11398`)
+      axios.get(`${apiBaseURL}/movies/177c063e-5d2a-49de-b933-5cf1aa8cebfb`),
+      axios.get(`${apiBaseURL}/movies/f1119178-c1f9-421b-b501-4f441c08337a`),
+      axios.get(`${apiBaseURL}/movies/b28be524-187e-432d-bed4-050c19d33d5c`)
     ]);
   }
 
