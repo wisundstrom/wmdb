@@ -1,4 +1,3 @@
-from neo4j import GraphDatabase
 import pandas as pd
 import numpy as np
 import string

@@ -1,0 +1,58 @@
+{
+  "actedIn": [
+    {
+      "id": null, 
+      "name": null, 
+      "poster_image": null
+    }
+  ], 
+  "directed": [
+    {
+      "id": null, 
+      "name": null, 
+      "poster_image": null
+    }
+  ], 
+  "id": "34fdc0f1-6c2f-42fd-a277-f56fd80d7d24", 
+  "name": "Robert Sorrentino", 
+  "photographed": [
+    {
+      "id": "5de1b9a1-6f7f-4e08-ac6d-754499b2f70b", 
+      "name": "Day of the Animals", 
+      "poster_image": null
+    }
+  ], 
+  "poster_image": null, 
+  "produced": [
+    {
+      "id": null, 
+      "name": null, 
+      "poster_image": null
+    }
+  ], 
+  "related": [
+    {
+      "id": "117c23d7-7980-4455-943d-b46f52c85508", 
+      "name": "Christopher George", 
+      "poster_image": null
+    }, 
+    {
+      "id": "b8b5c655-8ee7-408a-b206-23caad0432c1", 
+      "name": "Leslie Nielsen", 
+      "poster_image": null
+    }, 
+    {
+      "id": "295615e4-6b37-45b5-990c-7329cb6cdc65", 
+      "name": "Lynda Day George", 
+      "poster_image": null
+    }
+  ], 
+  "status": 200, 
+  "wrote": [
+    {
+      "id": null, 
+      "name": null, 
+      "poster_image": null
+    }
+  ]
+}

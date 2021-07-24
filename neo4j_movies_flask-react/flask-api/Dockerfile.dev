@@ -7,7 +7,7 @@ RUN apt-get update -y && \
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update -y && apt-get install -y firefox dnsutils
+RUN apt-get update -y && apt-get install -y firefox iproute2 dnsutils nmap
 
 COPY ./geckodriver /usr/local/bin/
 
@@ -15,7 +15,7 @@ COPY ./geckodriver /usr/local/bin/
 
 RUN pip install --no-cache-dir requests pandas selenium
 RUN pip3 --no-cache-dir uninstall neotime neo4j neobolt 
-RUN pip3 --no-cache-diri nstall neo4j
+RUN pip3 --no-cache-dir install neo4j
 
 COPY ./requirements.txt /app/requirements.txt
 
@@ -23,5 +23,8 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
+
+
+EXPOSE 5000
 
 CMD [ "bash" ]

@@ -208,7 +208,7 @@ def serialize_movie(movie, my_rating=None):
         'language': movie['Language'],
         'country': movie['Country'],
         'rated': movie['Audience_Rating'],
-        'poster_image': None,
+        'poster_image': movie['coverfront'],
         'my_rating': my_rating,
     }
 
@@ -345,7 +345,7 @@ class Movie(Resource):
                 'country': record['movie']['Country'],
                 'language': record['movie']['Language'],
                 'imdb_rating': record['movie']['IMDb_Rating'],
-                'poster_image': None,
+                'poster_image': record['movie']['coverfront'],
                 'my_rating': record['my_rating'],
                 'genres': [serialize_genre(genre) for genre in record['genres']],
                 'directors': [serialize_person(director)for director in record['directors']],

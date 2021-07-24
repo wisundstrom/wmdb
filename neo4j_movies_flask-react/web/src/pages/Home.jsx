@@ -31,8 +31,8 @@ class Home extends React.Component {
             {this.renderFeatured()}
           </div>
           <div className="large-12 columns">
-            {this.renderByGenre('Adventure')}
-            {this.renderByGenre('Drama')}
+            {this.renderByGenre('Horror')}
+            {this.renderByGenre('Comedy')}
           </div>
         </div>
       </div>
@@ -51,6 +51,7 @@ class Home extends React.Component {
               <li key={f.id}>
                 <Link to={`/movie/${f.id}`}>
                   <img src={f.posterImage} alt="" />
+                  <figcaption>{f.title}</figcaption>
                 </Link>
               </li>
             );

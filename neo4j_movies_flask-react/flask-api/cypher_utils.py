@@ -2,6 +2,7 @@ from neo4j import GraphDatabase
 import pandas as pd
 import numpy as np
 import string
+from bs4 import BeautifulSoup
 
 def node_feat(row):
     pairstrings = []
@@ -85,5 +86,71 @@ def merge_nodes(driver, row, col, edge, node_type='person'):
             node_dict: {node_dict} \n
             query_template: {query_template}
             """
+
+def set_movie_attrs(imdb_url, attrs):
+    return """
+    MATCH (m:Movie {IMDb_Url: "%s"})
+    SET m += {%s}
+    """ % (
+        imdb_url,
+        node_feat(attrs)
+        )
+
+
+
+
+        
+        
+
+
+
+def try_find(movie):
+
+    def try_find_internal(attr):
+        try:
+            ret = movie.find(attr).string
+        except AttributeError:
+            ret = "null"
+
+        return ret
+    
+    return try_find_internal
+
+
+def read_clz_xml(xml_file):
+    with open(xml_file, 'r') as f:
+        data = f.read()
+
+    bs_data = BeautifulSoup(data, 'xml')
+    b_unique = bs_data.find_all('movie')
+
+    output=[]
+
+    for idx, movie in enumerate(b_unique):
+        # if idx > 5:
+        #     break
+        finder = try_find(movie)
+        title = finder('title')
+
+        coverfront = finder('coverfrontdefault')
+        coverback = finder('coverbackdefault')
+
+        imdburl = finder('imdburl')
+
+        upc = finder('upc')
+
+        output.append( (title, upc, imdburl, coverfront, coverback) )
+    
+    return output
+
+
+
+
+"""
+MATCH (m:Movie {IMDb_Url: https://www.imdb.com/title/tt0099939/?ref_=ref_ext_clz}) 
+
+SET m += {title:"King of New York", upc:"5027035022222", imdburl:"https://www.imdb.com/title/tt0099939/?ref_=ref_ext_clz", coverfront:"https://clzmovies.r.sizr.io/core/covers/lg/eb/eb_1140865_0_KingofNewYork.jpg", coverback:"https://clzmovies.r.sizr.io/core/covers/lg/e0/e0_1140865_1_KingofNewYork.jpg"}
+"""
+
 
 
