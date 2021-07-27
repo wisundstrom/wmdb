@@ -18,7 +18,7 @@ class Home extends React.Component {
 
   componentWillMount() {
     this.props.getFeaturedMovies();
-    this.props.getMoviesByGenres(['Adventure', 'Drama']);
+    this.props.getMoviesByGenres(['Horror', 'Comedy']);
   }
 
   render() {

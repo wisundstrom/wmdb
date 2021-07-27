@@ -13,7 +13,7 @@ COPY ./geckodriver /usr/local/bin/
 
 
 
-RUN pip install --no-cache-dir requests pandas selenium
+RUN pip install --no-cache-dir requests pandas selenium bs4 lxml
 RUN pip3 --no-cache-dir uninstall neotime neo4j neobolt 
 RUN pip3 --no-cache-dir install neo4j
 
@@ -23,8 +23,8 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-
-
 EXPOSE 5000
 
 CMD [ "bash" ]
+#COPY . . 
+#CMD["sh guniserv.sh"] 
